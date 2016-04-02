@@ -1,5 +1,6 @@
 package com.visualscienceco.webdriver;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.AfterTest;
@@ -19,10 +20,14 @@ public class LoginCheckAndOut {
         driver.get("http://shelfit.com/");
     }
 
-    @Test
-    public void testAuthenticationFailureWithEmptyFields() {
+    @BeforeMethod
+    public void cleanLoginForm() {
         driver.findElement(By.name("UserName")).clear();
         driver.findElement(By.name("Password")).clear();
+    }
+
+    @Test
+    public void testAuthenticationFailureWithEmptyFields() {
         driver.findElement(By.name("UserName")).sendKeys("");
         driver.findElement(By.name("Password")).sendKeys("");
         driver.findElement(By.id("logInBtn")).submit();
@@ -35,8 +40,6 @@ public class LoginCheckAndOut {
 
     @Test
     public void testAuthenticationFailureWhenProvidingBadCredentials() {
-        driver.findElement(By.name("UserName")).clear();
-        driver.findElement(By.name("Password")).clear();
         driver.findElement(By.name("UserName")).sendKeys("Juanito");
         driver.findElement(By.name("Password")).sendKeys("elCartero");
         driver.findElement(By.id("logInBtn")).submit();
@@ -48,8 +51,6 @@ public class LoginCheckAndOut {
 
     @Test
     public void testAuthenticationSuccessWhenProvidingCorrectCredentials(){
-        driver.findElement(By.name("UserName")).clear();
-        driver.findElement(By.name("Password")).clear();
         driver.findElement(By.name("UserName")).sendKeys("jeff@digitalinlet.com");
         driver.findElement(By.name("Password")).sendKeys("test");
         driver.findElement(By.id("logInBtn")).submit();
